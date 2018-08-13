@@ -1,0 +1,27 @@
+body{
+    background: rgba(54, 47, 47, 0.7);
+}
+
+#contenedorMessages{
+    height:400px;
+    padding:5px;
+    overflow-y: scroll;  
+}
+
+.border{
+    border: 5px solid;
+    border-radius: 8px;
+    text-align: center
+}
+
+.message{
+    margin: 20px;
+    padding: 5px;
+    border-radius: 15px;
+    border: 0.6px solid rgb(121, 111, 111);
+    background: rgba(197, 208, 240, 0.7)
+}
+
+.margin-nav{
+    margin-bottom: 20px;
+}
