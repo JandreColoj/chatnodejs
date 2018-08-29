@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,105 +13,34 @@
 <body>
 
     <div class="container">
-        
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark margin-nav">
-            <a class="navbar-brand" href="#">SALA DE CHAT</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Acerca de </a>
-                </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="row">
-            <div class="col-sm border" >
-                <h3>Configuracion</h3>
-                <br>
-                <br>
-                <div mb-3>                    
-                    <form onsubmit="return addMessageName(this)">                       
-
-                            <div class="form-group">
-                                <small id="emailHelp" class="form-text text-muted">Este nombre aparecera en el chat.</small>
-                                <input type="text" name="txt" id="nickname" size="36" placeholder="Alias">
-                                <button type="submit" class="btn btn-secondary btn-sm mb-2">Enviar</button>
-                            </div>                            
+        <div class="card card-container">
+            <img id="profile-img" class="profile-img-card" src="image/usuario.jpg" />
+            <p id="msjError" class="profile-name-card" style="display:none"> Credenciales invalidas</p>
             
-                    </form>
-                </div>
+            <form class="form-signin" action="">
 
-                <div id="NoPuerto">
-                </div>
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="text" 
+                       id="inputUser" 
+                       class="form-control" 
+                       placeholder="Usuario" 
+                       required autofocus>
 
-                <div class="input-group mb-3">
-                              
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="selectPuerto">Puerto</label>
-                    </div>
-                    <select class="custom-select" id="selectPuerto">
-                        <option value="0" disabled selected>Selecciona un puerto</option>
-                        <option value="6677">6677</option>
-                        <option value="6678">6678</option>
-                        <option value="6679">6679</option>
-                        <option value="8080">8080</option>
-                    </select>
-                </div>
+                <input type="password" 
+                       id="inputPassword" 
+                       class="form-control" 
+                       placeholder="Password"
+                       required>
 
-                <br>
-                <small id="" class="form-text text-muted">Los mensajes se Encriptaran.</small>
-                
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="selectPuerto">Encriptar</label>
-                    </div>
-                    <select class="custom-select" id="selectEncript">
-                        <option value="0" disabled selected>Selecciona una opcion</option>
-                        <option value="1">si</option>
-                        <option value="0">no</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="col-sm ">
-
-                <div id="contenedorMessages">
-                </div>
-                <div>
-                    <form onsubmit="return addMessage(this)">
-                        <div class="form-group">
-
-                            <form class="form-inline" onsubmit="return addMessage(this)">
-                                <div class="form-group">
-                                    <input type="text" name="txt" id="text" size="25" placeholder="Escribe algo">
-                                    <button type="submit" class="btn btn-secondary btn-sm mb-2">Enviar</button>
-                                </div>
-                                
-                            </form>
-                     
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="col-sm border">
-                <h3>Conectados</h3>
-            </div>
+                <input type="button" id="ingresar" class="btn btn-info btn-sm mb-2" value="Ingresar">
+        
+            </form>
         </div>
-
     </div>
 
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="js/JQuery.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+
 </body>
 </html>

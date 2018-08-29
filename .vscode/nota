@@ -1,0 +1,2 @@
+comando para levantar el servidor
+node server/index.js

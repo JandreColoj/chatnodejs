@@ -9,41 +9,52 @@ var io = require("socket.io")(server);
 
 app.use(express.static("cliente"));
 
+app.post('/Login/', function(req, res) {
+    var usuario = req.body.user;
+    var password = req.body.pass;
 
-app.post("/cambioPuerto",function(req,res){
+    if(usuario=="invitado" && password=="123"){
+         res.send("logeado");
 
-    server.close ();
+    }else{
+        res.send("error");
+    }
 
-    server.listen(req.body.puerto,function(){
-        console.log("Cambio de servidor  en el puerto: "+req.body.puerto); 
-        res.send(req.body);    
-    });
- 
-  
-});
+})
 
 
 var messages =[{
     id: 1,
-    text: "Bienvenido al chat privado de Jose",
-    nickname: "Jandre",   
+    text: "Bienvenido al chat privado",
+    nickname: "Admin",
+    encript: "no",   
 }];
 
 io.on("connection",function(socket){
-    console.log("el nodo con ip "+socket.handshake.address+" se a conectado");
+    console.log(socket.handshake.address);
     socket.emit("messages",messages);
 
-    socket.on("add-message",function(data){
+    io.sockets.emit("en-linea",socket.handshake.address);
 
+    socket.on("add-message",function(data){
         messages.push(data);
         io.sockets.emit("messages",messages);
 
     });
 
+    socket.on("cambio-puerto",function(data){
+        server.close ();
+        server.listen(data.puerto,function(){
+            console.log("Cambio de servidor  en el puerto: "+data.puerto);   
+        });
+
+        io.sockets.emit("cambio",data.puerto);
+    });
+
 });
 
 server.listen(6677,function(){
-    console.log("servidor funcionando en el puerto 6677");   
+    console.log("SERVIDOR NODE funcionando en el puerto 6677");
 });
 
 

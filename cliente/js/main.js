@@ -1,31 +1,72 @@
 
     var direccion = location.href;
     var aux = direccion.split(':');
-
+    var aux2 = aux[2].split('/');
+    var ip="http://192.168.0.26:";
+    var encriptar=false;
     
-    var socket = io.connect("http://192.168.43.191:"+aux[2],{"forceNew":true})
-    $("#NoPuerto" ).html("<h3  class='form-text text-muted'>Puerto "+aux[2]+"</h3>")    
+    
+    var socket = io.connect(ip+aux2[0],{"forceNew":true})
+    console.log(socket);
+    $("#NoPuerto" ).html("<h3  class='form  -text text-muted'>Puerto "+aux[2]+"</h3>")  
+    $("#puerto_id" ).val(aux[2]);  
 
+
+    socket.on("en-linea",function(data){
+        $("#conectados").append("<p>  Conectado IP: <strong> "+data+"</strong>.<p>");
+       // $("#conectados").append("<p><span class='glyphicon glyphicon-star-empty'></span>si: </p> ");
+    });
+
+    socket.on("cambio",function(data){
+
+        $('#ModalPuertos').modal('show');
+        
+        $('#no_actualizar').click(function(){
+            
+            var puerto = $("#puerto_id" ).val();
+            var link=ip+puerto;
+            window.location.replace(link);  
+        });
+
+        $('#actualizar').click(function(){
+            var link=ip+data;
+            window.location.replace(link);  
+        });
+        
+    });
 
 
     socket.on("messages",function(data){
-
-        console.log(data);
-
+        
+        audio();
         render(data);
     });
 
 
+    function audio(){
+        var x = document.getElementById("myAudio");
+        x.play();
+    }
 
     function render(data){
 
         var html=data.map(function(message, index){
+            // console.log(message.encript);
+            // console.log(message);
+            if(encriptar){
+                if(message.encript=="si"){
+                    var msj= Base64.decode(message.text);
+                }else{
+                    var msj= message.text;
+                }   
+            }else{
+                var msj= message.text;
+            }
 
             return (`
                 <div class="message"> 
-                    <strong> ${message.nickname}</strong>
-                    dice:  
-                    <p>${message.text}</p>
+                    <strong> ${message.nickname}</strong> 
+                    <p>${msj}</p>
                 </div>
             `);
         }).join(" ");
@@ -36,14 +77,23 @@
         content.scrollTop = content.scrollHeight ;
     }
 
-
+    var nombre;
     function addMessage(e){
 
-        var encriptar = $("#selectEncript" ).val();
-        alert(encriptar);
+        
+        var encript="no";
+
+        if(encriptar){
+            var msj = Base64.encode(document.getElementById("text").value);
+            encript="si";
+        }else{
+            var msj = document.getElementById("text").value;
+        }
+
         var message = {
             nickname : document.getElementById("nickname").value,
-            text : document.getElementById("text").value,
+            text : msj,
+            encript: encript
         }
 
         socket.emit("add-message",message);
@@ -52,7 +102,9 @@
         return false;
     }
 
-    function addMessageName(){
+    
+
+    $("#addMessageName").click(function(){
 
         var message = {
             nickname : document.getElementById("nickname").value,
@@ -61,38 +113,46 @@
 
         socket.emit("add-message",message);
 
+        $('#ModalConfig').modal('hiden');
         return false;
 
-    }
+    });
 
-    $("#selectPuerto" ).change(function() {
+    $("#selectPuerto").change(function() {
 
-        var puerto = $("#selectPuerto" ).val();
-
+        var puerto = $("#selectPuerto").val();
         var data = {};
         data.puerto = puerto;
 
-        $.ajax({
+        socket.emit("cambio-puerto",data);
+
+        /*$.ajax({
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
             url: '/cambioPuerto',						
             success: function(data) {
-
-                var link="http://192.168.43.191:"+puerto;
-                var socket = io.connect("http://192.168.43.191:"+puerto,{"forceNew":true})
-
+                var link=ip+puerto;
                 window.location.replace(link);
-
             }
-        });
+        });*/
 
-        
-       // socket = io.connect("http://192.168.43.191:"+puerto,{"forceNew":true})
 
     });
 
+    $("#selectEncript").change(function() {
 
-    
+        var aux = $("#selectEncript").val();
+        
+        if(aux==1){
+            encriptar=true;
+        }else if(aux==0){
+            encriptar=false;
+        }
 
+    });
+
+    $("#btnConfig").click(function(){
+        $('#ModalConfig').modal('show');
+    });
 
