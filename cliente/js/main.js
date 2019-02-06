@@ -2,11 +2,12 @@
     var direccion = location.href;
     var aux = direccion.split(':');
     var aux2 = aux[2].split('/');
-    var ip="http://3.95.85.45:";
+    var ip="http://3.95.85.45:8080";
     var encriptar=false;
     
     
-    var socket = io.connect(ip+aux2[0],{"forceNew":true})
+    //var socket = io.connect(ip+aux2[0],{"forceNew":true})
+    var socket = io.connect(ip,{"forceNew":true})
     console.log(socket);
     $("#NoPuerto" ).html("<h3  class='form  -text text-muted'>Puerto "+aux[2]+"</h3>")  
     $("#puerto_id" ).val(aux[2]);  
