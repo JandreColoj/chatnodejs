@@ -53,8 +53,8 @@ io.on("connection",function(socket){
 
 });
 
-server.listen(6677,function(){
-    console.log("SERVIDOR NODE funcionando en el puerto 6677");
+server.listen(8080,function(){
+    console.log("SERVIDOR NODE funcionando en el puerto 8080");
 });
 
 
