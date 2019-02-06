@@ -2,7 +2,7 @@
     var direccion = location.href;
     var aux = direccion.split(':');
     var aux2 = aux[2].split('/');
-    var ip="http://192.168.0.26:";
+    var ip="http://3.95.85.45:";
     var encriptar=false;
     
     
